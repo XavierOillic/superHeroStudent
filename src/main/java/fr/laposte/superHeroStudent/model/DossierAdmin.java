@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class DossierAdmin {
 	
 	@Id
-	private Long id;
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	private Long id;
 	
 	@OneToOne
 	Avenger avenger;

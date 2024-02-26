@@ -1,8 +1,10 @@
 package fr.laposte.superHeroStudent;
 
 import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import fr.laposte.superHeroStudent.model.Avenger;
 import fr.laposte.superHeroStudent.model.Competences;
@@ -13,6 +15,8 @@ import fr.laposte.superHeroStudent.repository.CompetenceRepo;
 import fr.laposte.superHeroStudent.repository.DossierAdminRepo;
 import fr.laposte.superHeroStudent.repository.FormationRepo;
 
+
+@SpringBootTest
 public class TestsRelations {
 
 	@Autowired 
@@ -29,11 +33,12 @@ public class TestsRelations {
 	
 	@BeforeEach
 	void Cleaning () {
+		dossier.deleteAll();
 		student.deleteAll();
 		competence.deleteAll();
-		dossier.deleteAll();
 		formation.deleteAll();
 	}
+	
 	@Test
 	void freeTest() {
 		//Création de la Session
@@ -54,6 +59,7 @@ public class TestsRelations {
 			thor.setNom("Tonnerre");
 		student.save(thor);
 		
+		// création des Dossiers admiistratifs
 		DossierAdmin dossThor = new DossierAdmin();
 			dossThor.setAvenger(thor);
 			dossThor.setEmail("thor@avenger.com");
@@ -77,13 +83,22 @@ public class TestsRelations {
 			force.setNiveau(20000);
 		competence.save(force);
 		
-		//Attribution de competences
-		thor.getNewCompetence().add(tonnerre);
-		thor.getNewCompetence().add(force);
+		//Attribution de competences LIEES AU TABLEAU D'ASSOCIATION
+			thor.getComp().add(force); // Je GET le Tableau, et j'y ADD qqch
+			thor.getComp().add(force);
 		student.save(thor);
 		
-		hulk.getNewCompetence().add(force);
+			hulk.getComp().add(force);
 		student.save(hulk);
+		
+		for (Avenger a : student.findAll()) {
+			System.out.println(a);
+		}// Pour chaque ELEMENT A de Avenger, j'affiche toutes les instances STUDENT, grâce à FINDALL().
+		
+		/*for(Avenger b : student.findAll()) {
+			student.deleteAll();
+		}// Pour chaque ELEMENT A de Avenger, je DELETE toutes les instances STUDENT, grâce à FINDALL().*/
+		
 		
 	}
 	

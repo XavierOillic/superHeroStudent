@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,17 +38,18 @@ public class Avenger {
 	@ManyToOne /* Une eleve suit une seule formation, mais une formation contient plusieurs éléves */
 	Formation formation; 
 
-	@ManyToMany
-	@Getter(value = AccessLevel.NONE)
-	@Setter(value = AccessLevel.NONE)
+	@ManyToMany(fetch = FetchType.EAGER)
+	//@Getter(value = AccessLevel.NONE)  ===> SECURISATION DE L'ACCES AUX DATAS
+	//@Setter(value = AccessLevel.NONE)  ===> SECURISATION DE L'ACCES AUX DATAS
 	private Set<Competences> comp = new HashSet<>(); /* Permet de faire un tableau sans aucuns DOUBLONS, pour avoir ici un table d'ASSO */
 	
-	public void addCompetences (Competences newCompetence) {
+	/*public void addCompetences (Competences newCompetence) {
 		comp.add(newCompetence);
 	}
 	public List<Competences> getNewCompetence(){
 		return Collections.unmodifiableList(new ArrayList<>(comp));
-	}
+	}*/ 
+	//===> SECURISATION DE L'ACCES AUX DATAS
 	
 
 	
